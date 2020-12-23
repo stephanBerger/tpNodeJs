@@ -6,15 +6,19 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const twig = require('twig').twig; // ('twig')=Module, "().twig"=render function
 const app = express();
+
+
 // TODO: declare mongoose models
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
+
 //definition du schema
 const contentSchema = schema({
     date: Date,
-    username: String,
+    username: {type : String, default: "stephan"},
     content: String,
 });
+
 //Creation du Model en utilisant le Schema
 const Contenu = mongoose.model('Contenu', contentSchema);
 // TODO: connect to mongodb
@@ -22,6 +26,18 @@ mongoose.connect('mongodb://rencho:aze@localhost:27017/twitter',{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(()=> {
+
+
+    // const newContenu = new Contenu({
+    //     date: Date.now(),
+    //     content: "Bonjour comment ça va ?",
+    // });
+    // newContenu.save((err,document)=> {
+    //     if (err) {console.log(err)};
+    //     console.log(document);
+    // });
+    
+
     console.log('Connection à la base de donnée mongo OK');
     Contenu.find({})
            .exec()
